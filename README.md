@@ -4,7 +4,11 @@ node-toolbox
 Useful node tools
 
 
-## Use config files in "/config"
+## Use json config files:
+
+1. Create ./config/development.js and/or ./config/production.js in proj folder.
+
+2. Import configs
 
 ```js
 var toolbox = require('../index')
