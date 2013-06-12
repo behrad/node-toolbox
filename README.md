@@ -8,7 +8,7 @@ Useful node tools
 
 1. Create ./config/development.js and/or ./config/production.js in proj folder.
 
-2. Import configs
+2. Import configs as ex below:
 
 ```js
 var toolbox = require('../index')
