@@ -19,12 +19,12 @@ Tools.prototype.log = function(string, obj){
 	var now = moment().format('MM/DD/YY | HH:mm:ss')
 	if(('object' === typeof string) && !obj) {
 		console.log(now+' | ============================= Obj =>')
-		console.log(util.inspect(string))
+		console.log(util.inspect(obj))
 		console.log('<========================================================|')
 	} else if (('string' === typeof string) && ('object' === typeof obj)){
 		console.log(now+' | ============================= Obj =>')
 		console.log('** ' +string)
-		console.log(util.inspect(string))
+		console.log(util.inspect(obj))
 		console.log('<========================================================|')
 	} else {console.log(now+' | '+string)}
 }
