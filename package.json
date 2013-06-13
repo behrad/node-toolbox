@@ -19,5 +19,8 @@
   "gitHead": "642b5bba3237eed1561eccb6eb598cc4e66db063",
   "bugs": {
     "url": "https://github.com/140proof/node-toolbox/issues"
+  },
+   "dependencies": {
+    "moment"                : "*"
   }
 }

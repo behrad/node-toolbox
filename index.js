@@ -1,5 +1,7 @@
 var path = require('path');
 var env = process.env.NODE_ENV || 'development';
+var moment = require('moment');
+var util = require('util');
 
 module.exports = new Tools()
 
@@ -13,7 +15,19 @@ Tools.prototype.use = function(settings) {
 	if (settings.config) this.config = getConfig();
 }
 
-
+Tools.prototype.log = function(string, obj){
+	var now = moment().format('MM/DD/YY | HH:mm:ss')
+	if(('object' === typeof string) && !obj) {
+		console.log(now+' | ============================= Obj =>')
+		console.log(util.inspect(string))
+		console.log('<========================================================|')
+	} else if (('string' === typeof string) && ('object' === typeof obj)){
+		console.log(now+' | ============================= Obj =>')
+		console.log('** ' +string)
+		console.log(util.inspect(string))
+		console.log('<========================================================|')
+	} else {console.log(now+' | '+string)}
+}
 function getConfig() {
 	var conf_file = env + ".js";
 	var conf_file_path = path.dirname(module.parent.filename) + "/config/" + conf_file;
