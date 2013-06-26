@@ -13,6 +13,7 @@ Tools.prototype.use = function(settings) {
 	if ('object' !== typeof settings) return new Error("Must provide settings")
 	if (settings.force_env) env = settings.force_env;
 	if (settings.config) this.config = getConfig();
+
 }
 
 Tools.prototype.log = function(string, obj){
@@ -28,6 +29,12 @@ Tools.prototype.log = function(string, obj){
 		console.log('<========================================================|')
 	} else {console.log(now+' | '+string)}
 }
+
+
+Tools.prototype.getType = function(obj) {
+  return Object.prototype.toString.call(obj).slice(8, -1);
+}
+
 function getConfig() {
 	var conf_file = env + ".js";
 	var conf_file_path = path.dirname(module.parent.filename) + "/config/" + conf_file;
