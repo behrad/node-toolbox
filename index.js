@@ -21,7 +21,7 @@ Tools.prototype.log = function(string, obj){
 		console.log(now+' | ============================= Obj =>')
 		console.log(util.inspect(string, {depth:null,colors:true}))
 		console.log('<========================================================|')
-	} else if (('string' === typeof string) && ('object' === typeof obj)){
+	} else if (('string' === typeof string) && ('undefined' !== typeof obj)){
 		console.log(now+' | ============================= Obj =>')
 		console.log('** ' +string)
 		console.log(util.inspect(obj,{depth:null,colors:true}))
