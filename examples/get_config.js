@@ -1,5 +1,4 @@
-var toolbox = require('../index')
-toolbox.use({
+var toolbox = require('../index').use({
 	config:true,
 });
 

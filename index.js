@@ -13,7 +13,7 @@ Tools.prototype.use = function(settings) {
 	if ('object' !== typeof settings) return new Error("Must provide settings")
 	if (settings.force_env) env = settings.force_env;
 	if (settings.config) this.config = getConfig();
-
+	return this
 }
 
 Tools.prototype.log = function(string, obj){
