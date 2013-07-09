@@ -20,6 +20,20 @@ Tools.prototype.log = function(string, obj){
 	var now = moment().format('MM/DD/YY | HH:mm:ss')
 	if(('object' === typeof string) && !obj) {
 		console.log(now+' | ============================= Obj =>')
+		console.log(util.inspect(string, {depth:null,colors:false}))
+		console.log('<========================================================|')
+	} else if (('string' === typeof string) && ('undefined' !== typeof obj)){
+		console.log(now+' | ============================= Obj =>')
+		console.log('** ' +string)
+		console.log(util.inspect(obj,{depth:null,colors:false}))
+		console.log('<========================================================|')
+	} else {console.log(now+' | '+string)}
+}
+
+Tools.prototype.plog = function(string, obj){
+	var now = moment().format('MM/DD/YY | HH:mm:ss')
+	if(('object' === typeof string) && !obj) {
+		console.log(now+' | ============================= Obj =>')
 		console.log(util.inspect(string, {depth:null,colors:true}))
 		console.log('<========================================================|')
 	} else if (('string' === typeof string) && ('undefined' !== typeof obj)){
@@ -29,7 +43,6 @@ Tools.prototype.log = function(string, obj){
 		console.log('<========================================================|')
 	} else {console.log(now+' | '+string)}
 }
-
 
 Tools.prototype.getType = function(obj) {
   return Object.prototype.toString.call(obj).slice(8, -1);
