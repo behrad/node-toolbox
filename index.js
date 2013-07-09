@@ -30,7 +30,7 @@ Tools.prototype.log = function(string, obj){
 	} else {console.log(now+' | '+string)}
 }
 
-Tools.prototype.plog = function(string, obj){
+Tools.prototype.logp = function(string, obj){
 	var now = moment().format('MM/DD/YY | HH:mm:ss')
 	if(('object' === typeof string) && !obj) {
 		console.log(now+' | ============================= Obj =>')
