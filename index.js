@@ -16,36 +16,61 @@ Tools.prototype.use = function(settings) {
 	return this
 }
 
-Tools.prototype.log = function(string, obj){
-	var now = moment().format('MM/DD/YY | HH:mm:ss')
-	if(('object' === typeof string) && !obj) {
-		console.log(now+' | ============================= Obj =>')
-		console.log(util.inspect(string, {depth:null,colors:false}))
+Tools.prototype.log = function(string, obj) {
+	var pretty_colors = false;
+	if (env === 'development') pretty_colors = true;
+	var now = moment().format('MM/DD/YY-HH:mm:ss')
+	if (('object' === typeof string) && !obj) {
+		console.log(now + ' | ============================== Obj =>')
+		console.log(util.inspect(string, {
+			depth: null,
+			colors: pretty_colors
+		}))
 		console.log('<========================================================|')
-	} else if (('string' === typeof string) && ('undefined' !== typeof obj)){
-		console.log(now+' | ============================= Obj =>')
-		console.log('** ' +string)
-		console.log(util.inspect(obj,{depth:null,colors:false}))
+	} else if (('string' === typeof string) && ('undefined' !== typeof obj)) {
+		console.log(now + ' | ============================== Obj =>')
+		console.log('Note: ' + string)
+		console.log(util.inspect(obj, {
+			depth: null,
+			colors: pretty_colors
+		}))
 		console.log('<========================================================|')
-	} else {console.log(now+' | '+string)}
+	} else {
+		console.log(now + ' | ' + string)
+	}
 }
 
-Tools.prototype.logp = function(string, obj){
-	var now = moment().format('MM/DD/YY | HH:mm:ss')
-	if(('object' === typeof string) && !obj) {
-		console.log(now+' | ============================= Obj =>')
-		console.log(util.inspect(string, {depth:null,colors:true}))
-		console.log('<========================================================|')
-	} else if (('string' === typeof string) && ('undefined' !== typeof obj)){
-		console.log(now+' | ============================= Obj =>')
-		console.log('** ' +string)
-		console.log(util.inspect(obj,{depth:null,colors:true}))
-		console.log('<========================================================|')
-	} else {console.log(now+' | '+string)}
+Tools.prototype.err = function(string, obj) {
+	var pretty_colors = false;
+	if (env === 'development') pretty_colors = true;
+	var now = moment().format('MM/DD/YY-HH:mm:ss')
+	if (('object' === typeof string) && !obj) {
+		console.error(now + ' ERROR: | ============================== Obj =>')
+		console.error(util.inspect(string, {
+			depth: null,
+			colors: pretty_colors
+		}))
+		console.error(string.stack)
+		console.error('<========================================================|')
+	} else if (('string' === typeof string) && ('undefined' !== typeof obj)) {
+		console.error(now + ' | ============================== Obj =>')
+		console.error('ERROR: ' + string)
+		console.error(util.inspect(obj, {
+			depth: null,
+			colors: pretty_colors
+		}))
+		console.error(obj.stack)
+		console.error('<========================================================|')
+	} else {
+		console.error(now + ' ERROR: | ' + string)
+		console.stack()
+	}
+
 }
+
 
 Tools.prototype.getType = function(obj) {
-  return Object.prototype.toString.call(obj).slice(8, -1);
+	return Object.prototype.toString.call(obj).slice(8, -1);
 }
 
 function getConfig() {
