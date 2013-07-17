@@ -88,7 +88,7 @@ Tools.prototype.onlyExitAfter = function(item) {
 
 
 
-Tools.prototype.beforeExitDo = function(fn_op) {
+Tools.prototype.beforeExit = function(fn_op) {
 	console.log('before exit is run')
 	before_exit_store.push(fn_op)
 	before_exit_ops_no = before_exit_store.length;

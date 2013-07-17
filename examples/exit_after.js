@@ -1,10 +1,10 @@
 t =  require('../index').use({conf:true, force:true})
 
-t.beforeExitDo(function(done){
+t.beforeExit(function(done){
 	console.log('this ran before exit')
 	return done('hi im fin with my last function call')
 })
-t.beforeExitDo(function(done){
+t.beforeExit(function(done){
 	setTimeout(function(){
 		console.log('this ran before exit but with timeout')
 	return done('hi im fin with my last function call')
