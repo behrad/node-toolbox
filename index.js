@@ -2,15 +2,20 @@ var path = require('path');
 var env = process.env.NODE_ENV || 'development';
 var moment = require('moment');
 var util = require('util');
-
-module.exports = new Tools()
+var force_exit = false;
+module.exports = tools = new Tools()
+var before_exit_store = [];
+var before_exit_ops_no = 0
+var before_exit_completed = [];
+var exit_after_store = [];
+var exit_after_completed = [];
 
 function Tools() {
 	return this;
 }
 
 Tools.prototype.use = function(settings) {
-	if ('object' !== typeof settings) return new Error("Must provide settings")
+	if ('object' !== typeof settings) throw new Error("Must provide settings")
 	if (settings.force_env) env = settings.force_env;
 	if (settings.config) this.config = getConfig();
 	return this
@@ -71,6 +76,68 @@ Tools.prototype.err = function(string, obj) {
 
 Tools.prototype.getType = function(obj) {
 	return Object.prototype.toString.call(obj).slice(8, -1);
+}
+
+
+Tools.prototype.onlyExitAfter = function(item) {
+	exit_after_store.push(item)
+
+	if (this.watchingTerm === undefined) this.watchTerm();
+}
+
+
+
+
+Tools.prototype.beforeExitDo = function(fn_op) {
+	console.log('before exit is run')
+	before_exit_store.push(fn_op)
+	before_exit_ops_no = before_exit_store.length;
+	if (this.watchingTerm === undefined) this.watchTerm();
+}
+
+Tools.prototype.watchTerm = function() {
+	this.watchingTerm = true;
+	console.log('starting to watch term')
+	process.on('SIGTERM', startExit); // wait to kill
+	process.on('SIGINT', startExit); // force kill
+}
+
+
+function forceExit() {
+	before_exit_completed =[];
+	if (before_exit_store.length ===0 ) return process.exit() 
+	before_exit_store.forEach(function(to_do_fn) {
+		to_do_fn(function(res) {
+			before_exit_completed.push(res)
+			tools.log('before_exit_done vs total', [before_exit_completed.length, before_exit_ops_no])
+			if (before_exit_completed.length === before_exit_ops_no) {
+				tools.log('force exit is forcing exit', before_exit_completed)
+				return process.exit()
+			}
+		})
+	})
+}
+
+
+
+function startExit() { //  TODO fix this fucking bullshit
+	if (force_exit === true || exit_after_store.length === 0) return forceExit();
+	force_exit = true;
+	var intvl = setInterval(function() {
+		tools.log('inside interval')
+		var done = 0
+		exit_after_store.forEach(function(fn_to_check) {
+			fn_to_check(function(status) {
+				if (status === true) done++
+					tools.log('fn check got', status)
+				if (done === exit_after_store.length) {
+					console.log('done is all done')
+					clearInterval(intvl)
+					return forceExit();
+				}
+			})
+		})
+	}, 1000)
 }
 
 function getConfig() {
