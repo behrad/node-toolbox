@@ -106,14 +106,14 @@ Tools.prototype.watchTerm = function() {
 
 Tools.prototype.forceExit = function() {
 	before_exit_completed =[];
-	if (before_exit_store.length ===0 ) return process.exit() 
+	if (before_exit_store.length ===0 ) return setTimeout(function(){process.exit()}, 500) 
 	before_exit_store.forEach(function(to_do_fn) {
 		to_do_fn(function(res) {
 			before_exit_completed.push(res)
 			tools.log('before_exit_done vs total', [before_exit_completed.length, before_exit_ops_no])
 			if (before_exit_completed.length === before_exit_ops_no) {
 				tools.log('force exit is forcing exit', before_exit_completed)
-				return process.exit()
+				return setTimeout(function(){process.exit()}, 500) 
 			}
 		})
 	})
