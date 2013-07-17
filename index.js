@@ -97,13 +97,14 @@ Tools.prototype.beforeExitDo = function(fn_op) {
 
 Tools.prototype.watchTerm = function() {
 	this.watchingTerm = true;
+	var self = this;
 	console.log('starting to watch term')
-	process.on('SIGTERM', startExit); // wait to kill
-	process.on('SIGINT', startExit); // force kill
+	process.on('SIGTERM', self.startExit); // wait to kill
+	process.on('SIGINT', self.startExit); // force kill
 }
 
 
-function forceExit() {
+Tools.prototype.forceExit = function() {
 	before_exit_completed =[];
 	if (before_exit_store.length ===0 ) return process.exit() 
 	before_exit_store.forEach(function(to_do_fn) {
@@ -120,8 +121,8 @@ function forceExit() {
 
 
 
-function startExit() { //  TODO fix this fucking bullshit
-	if (force_exit === true || exit_after_store.length === 0) return forceExit();
+Tools.prototype.startExit =  function() { 
+	if (force_exit === true || exit_after_store.length === 0) return tools.forceExit();
 	force_exit = true;
 	var intvl = setInterval(function() {
 		tools.log('inside interval')
@@ -133,7 +134,7 @@ function startExit() { //  TODO fix this fucking bullshit
 				if (done === exit_after_store.length) {
 					console.log('done is all done')
 					clearInterval(intvl)
-					return forceExit();
+					return tools.forceExit();
 				}
 			})
 		})
