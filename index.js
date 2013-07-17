@@ -99,8 +99,8 @@ Tools.prototype.watchTerm = function() {
 	this.watchingTerm = true;
 	var self = this;
 	console.log('starting to watch term')
-	process.on('SIGTERM', self.startExit); // wait to kill
-	process.on('SIGINT', self.startExit); // force kill
+	process.on('SIGTERM', self.forceExit); // force kill
+	process.on('SIGINT', self.startExit); // graceful kill
 }
 
 
