@@ -16,6 +16,7 @@ function Tools() {
 
 Tools.prototype.use = function(settings) {
 	if ('object' !== typeof settings) throw new Error("Must provide settings")
+	this.settings = settings
 	if (settings.force_env) env = settings.force_env;
 	if (settings.config) this.config = getConfig();
 	return this
@@ -87,7 +88,6 @@ Tools.prototype.onlyExitAfter = function(item) {
 
 
 
-
 Tools.prototype.beforeExit = function(fn_op) {
 	console.log('before exit is run')
 	before_exit_store.push(fn_op)
@@ -105,15 +105,19 @@ Tools.prototype.watchTerm = function() {
 
 
 Tools.prototype.forceExit = function() {
-	before_exit_completed =[];
-	if (before_exit_store.length ===0 ) return setTimeout(function(){process.exit()}, 500) 
+	before_exit_completed = [];
+	if (before_exit_store.length === 0) return setTimeout(function() {
+			process.exit()
+		}, 500)
 	before_exit_store.forEach(function(to_do_fn) {
 		to_do_fn(function(res) {
 			before_exit_completed.push(res)
 			tools.log('before_exit_done vs total', [before_exit_completed.length, before_exit_ops_no])
 			if (before_exit_completed.length === before_exit_ops_no) {
 				tools.log('force exit is forcing exit', before_exit_completed)
-				return setTimeout(function(){process.exit()}, 500) 
+				return setTimeout(function() {
+					process.exit()
+				}, 500)
 			}
 		})
 	})
@@ -121,7 +125,7 @@ Tools.prototype.forceExit = function() {
 
 
 
-Tools.prototype.startExit =  function() { 
+Tools.prototype.startExit = function() {
 	if (force_exit === true || exit_after_store.length === 0) return tools.forceExit();
 	force_exit = true;
 	var intvl = setInterval(function() {
@@ -130,7 +134,7 @@ Tools.prototype.startExit =  function() {
 		exit_after_store.forEach(function(fn_to_check) {
 			fn_to_check(function(status) {
 				if (status === true) done++
-					tools.log('fn check got', status)
+				tools.log('fn check got', status)
 				if (done === exit_after_store.length) {
 					console.log('done is all done')
 					clearInterval(intvl)
@@ -142,6 +146,7 @@ Tools.prototype.startExit =  function() {
 }
 
 function getConfig() {
+	if (undefined !== tools.settings[env]) return tools.settings[env]
 	var conf_file = env + ".js";
 	var conf_file_path = path.dirname(module.parent.filename) + "/config/" + conf_file;
 	try {
