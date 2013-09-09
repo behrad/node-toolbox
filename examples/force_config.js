@@ -4,6 +4,7 @@ var forced_config_file = {
 
 var toolbox = require('../index').use({
 	config: true,
+  force_env:"development",
 	development: forced_config_file
 });
 

@@ -69,7 +69,7 @@ Tools.prototype.err = function(string, obj) {
 		console.error('<========================================================|')
 	} else {
 		console.error(now + ' ERROR: | ' + string)
-		console.stack()
+		console.trace()
 	}
 
 }

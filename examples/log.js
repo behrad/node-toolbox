@@ -42,7 +42,7 @@ toolbox.err('Optional note', err) // Returns:
 // <========================================================|
 
 var err = 'Just a string, desc of error'
-toolbox.err('Optional note', err) // Returns:
+toolbox.err('Optional note', {}) // Returns:
 // 07/16/13-10:43:53 | ============================== Obj =>
 // Note: String type should really be 'String'
 // 'String'
