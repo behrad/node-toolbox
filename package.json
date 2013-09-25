@@ -1,6 +1,6 @@
 {
   "name": "node-toolbox",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Useful node tools",
   "main": "index.js",
   "directories": {

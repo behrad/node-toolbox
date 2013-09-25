@@ -18,6 +18,7 @@ Tools.prototype.use = function(settings) {
 	if ('object' !== typeof settings) throw new Error("Must provide settings")
 	this.settings = settings
 	if (settings.force_env) env = settings.force_env;
+  console.log('Node running in %s mode!', env)
 	if (settings.config) this.config = getConfig();
 	return this
 }
